@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}jGames{% endblock %}
+
+{% block content %}
+    {% if g.user %}
+    <div id="authorized-index-landing">
+
+        <form action="">
+            {{ form.hidden_tag() }}
+
+            {% for field in form 
+                if field.widget.input_type != 'hidden' %}
+
+            <div class="form-field">
+                {{ field(class_="input-field", placeholder="search") }}
+            </div>
+
+            {% endfor %}
+        </form>
+    </div>
+    {% else %}
+    <div id="unauthorized-index-landing">
+        <h1>Info goes here (Entice to signup/login).</h1>
+    </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/jgames.css">
+</head>
+<body>
+
+    <nav>
+        <ul class="navlink-wrapper">
+            <li><a href="/">jGames</a></li>
+            {% if g.user %}
+            <li><a href="">{{ g.user.username }}</a></li>
+            <li><a href="/logout">Logout</a></li>
+            {% else %}
+            <li><a href="/login">Login</a></li>
+            <li><a href="/signup">Signup</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    
+    <main>
+        {% block content %}
+        <!-- Page content goes here. -->
+        {% endblock %}
+    </main>
+
+</body>
+</html>

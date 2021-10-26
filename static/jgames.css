@@ -1,0 +1,113 @@
+/* Create :root variables when styles are finalized */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    overscroll-behavior: none;
+}
+
+
+/* ====================== NAVBAR STYLES ========================== */
+
+nav {
+    height: 8%;
+    width: 100%;
+    position: absolute;
+}
+
+nav li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 .5rem;
+}
+
+nav li:first-child {
+    margin-right: auto;
+}
+
+a {
+    display: inline-block;
+    padding: 1rem;
+    color: black;
+    text-decoration: none;
+}
+
+.navlink-wrapper {
+    height: 100%;
+    width: 97%;
+    margin: auto;
+    list-style: none;
+    display: flex;
+}
+
+/* ================================================================ */
+
+
+
+main {
+    height: 100%;
+    width: 100%;
+}
+
+#unauthorized-index-landing, #authorized-index-landing {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ======================= FORM STYLES ============================ */
+
+form {
+    width: 30%;
+    margin: auto;
+    padding: 7rem;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem auto;
+}
+
+.input-field {
+    margin-top: 0.5rem;
+    padding: 0.6rem;
+    border-radius: 0.5rem;
+    border: 1px solid black;
+}
+
+.button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid black;
+}
+
+/* ================================================================ */
+
+
+
+/* ===================== FLASH STYLES ========================== */
+
+.flash-msg {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+}
+
+.danger {
+    color: red;
+    border: 1px solid red;
+}
+
+.success {
+    color: green;
+    border: 1px solid green;
+}
+
+/* ============================================================= */
