@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ user.username }}{% endblock %}
+
+{% block content %}
+    <div id="dashboard-landing">
+        <h2 id="dashboard-greeting">Hello, {{ user.first_name }}!</h1>
+
+        <div id="dashboard-profile-details">
+
+            
+            <img src="{{ user.avatar }}" alt="{{ user.first_name }} profile photo">
+
+            <p>{{ user.username }}</p>
+            <p>{{ user.bio }}</p>
+
+            <form action="">
+                <button class="button">Add List</button>
+                <a class="button" href="/user/{{ user.id }}/edit">Edit</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

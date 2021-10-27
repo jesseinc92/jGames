@@ -26,8 +26,9 @@ class SignupForm(FlaskForm):
 class EditUser(FlaskForm):
     '''Template for updating a specific user'''
     
-    fist_name = StringField('First Name')
+    first_name = StringField('First Name')
     last_name = StringField('Last Name')
+    avatar = StringField('Avatar')
     bio = TextAreaField('Bio')
     
     

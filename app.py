@@ -99,11 +99,9 @@ def login_page():
         user = User.authenticate(username, password)
         if user:
             do_login(user)
-            flash(f'Welcome back {user.username}', 'success')
             return redirect('/')
         
         else:
-            flash('Incorrect login credentials', 'danger')
             return render_template('login.html', form=form)
     
     return render_template('login.html', form=form)
@@ -115,7 +113,6 @@ def logout_path():
     '''This view logs out the user and redirects to the root'''
     
     do_logout()
-    
     return redirect('/')
 
 # ----------------------------------------------- #
@@ -127,11 +124,39 @@ def logout_path():
 def user_dashboard(user_id):
     '''This view displays an individual user's dashboard'''
     
+    if g.user:
+        user = User.query.get(user_id)
+        return render_template('user/dashboard.html', user=user)
+    
+    else:
+        return redirect('/')
+    
     
 
-@app.route('/user/<int:user_id>/edit')
+@app.route('/user/<int:user_id>/edit', methods=['GET', 'POST'])
 def user_lists(user_id):
     '''Shows a page that allows a user to edit their details'''
+    
+    user = User.query.get(user_id)
+    if g.user.id == user.id:
+    
+        form = EditUser(obj=user)
+        if form.validate_on_submit():
+            
+            # capture form data and update user properties
+            user.first_name = form.first_name.data
+            user.last_name = form.last_name.data
+            user.avatar = form.avatar.data or User.avatar.default.arg
+            user.bio = form.bio.data
+            
+            db.session.commit()
+            
+            return redirect(f'/user/{user_id}')
+    
+        return render_template('user/edit.html', form=form)
+    
+    else:
+        return redirect('/')
 
 # ----------------------------------------------- #
 

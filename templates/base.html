@@ -13,7 +13,7 @@
         <ul class="navlink-wrapper">
             <li><a href="/">jGames</a></li>
             {% if g.user %}
-            <li><a href="">{{ g.user.username }}</a></li>
+            <li><a href="/user/{{ g.user.id }}">{{ g.user.username }}</a></li>
             <li><a href="/logout">Logout</a></li>
             {% else %}
             <li><a href="/login">Login</a></li>

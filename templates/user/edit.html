@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ g.user.username }}{% endblock %}
+
+{% block content %}
+    <div id="edit-user-landing">
+        <form method="POST">
+
+            {% for category, msg in get_flashed_messages(with_categories=true) %}
+            <p class="flash-msg {{ category }}">{{ msg }}</p>
+            {% endfor %}
+
+            {{ form.hidden_tag() }}
+
+            {% for field in form if field.widget.input_type != 'hidden' %}
+
+            <div class="form-field">
+                {{ field.label }}
+                {{ field(class_="input-field") }}
+            </div>
+
+            {% endfor %}
+
+            <button class="button">Save</button>
+        </form>
+    </div>
+{% endblock %}

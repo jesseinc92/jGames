@@ -47,19 +47,64 @@ a {
 
 /* ================================================================ */
 
+/* ========================= USER STYLES ========================== */
 
+#dashboard-greeting {
+    position: absolute;
+    top: 15%;
+    left: 10%;
+}
+
+#dashboard-profile-details {
+    width: 30%;
+    margin: auto;
+    padding-top: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#dashboard-profile-details * {
+    margin: 0.5rem;
+}
+
+#dashboard-profile-details img {
+    width: 10vw;
+    height: 10vw;
+    margin: auto;
+    border-radius: 50%;
+}
+
+#dashboard-profile-details p {
+    text-align: center;
+}
+
+#dashboard-profile-details form {
+    width: fit-content;
+    padding: 0;
+    position: relative;
+    margin: auto;
+}
+
+/* ================================================================ */
 
 main {
     height: 100%;
     width: 100%;
 }
 
-#unauthorized-index-landing, #authorized-index-landing {
+#unauthorized-index-landing, #authorized-index-landing, #edit-user-landing {
     height: 100%;
     width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+#dashboard-landing {
+    height: 100%;
+    width: 100%;
 }
 
 /* ======================= FORM STYLES ============================ */
@@ -87,6 +132,7 @@ form {
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
     border: 1px solid black;
+    font-size: 1rem;
 }
 
 /* ================================================================ */
