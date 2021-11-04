@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Create a list{% endblock %}
+
+{% block content %}
+    <form action="/lists/{{ user.id }}/new" method="POST">
+        {{ form.hidden_tag() }}
+
+        {% for field in form 
+            if field.widget.input_type != 'hidden' %}
+        <div class="form-field">
+            {{ field.label }}
+            {{ field(class_="input-field") }}
+
+            {% for error in field.errors %}
+            <span class="input-error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <button class="button">Create List</button>
+    </form>
+{% endblock %}

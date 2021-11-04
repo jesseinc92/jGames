@@ -14,10 +14,36 @@
             <p>{{ user.username }}</p>
             <p>{{ user.bio }}</p>
 
-            <form action="">
+            <form action="/lists/{{ user.id }}/new">
                 <button class="button">Add List</button>
                 <a class="button" href="/user/{{ user.id }}/edit">Edit</a>
             </form>
+        </div>
+        
+        <div id="dashboard-list-preview">
+            {% if user.lists %}
+                {% for list in user.lists %}
+                <div class="list-preview-box">
+                    <p><a href="/lists/{{ list.id }}">{{ list.name }}</a></p>
+                    <ul>
+                        {% if list.game %}
+                        <ul>
+                            {% for game in list.game %}
+                            <li>{{ game.title }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p>No games yet!</p>
+                        {% endif %}
+                    </ul>
+                </div>
+                {% endfor %}
+            {% else %}
+            <div id="no-lists-preview">
+                <h3>You don't have any lists yet!</h3>
+                <a class="button" id="no-list-new-list" href="/lists/{{ user.id }}/new">Create List</a>
+            </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

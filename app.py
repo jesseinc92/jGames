@@ -1,8 +1,12 @@
 import os
+from array import array
 from flask import Flask, render_template, redirect, flash, g, session
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import DatabaseError, IntegrityError
 from models import db, db_connect, User, List, Game, List_Game
-from forms import LoginForm, SignupForm, EditUser, GameSearch
+from forms import LoginForm, SignupForm, EditUser, GameSearch, NewListForm, EditListForm, AddToListForm
+from helpers import game_query, search_query
+from bs4 import BeautifulSoup
+
 
 CURR_USER_KEY = 'current_user'
 
@@ -167,12 +171,36 @@ def user_lists(user_id):
 def show_list(list_id):
     '''Displays a list and its contents'''
     
+    game_list = List.query.get(list_id)
+    
+    return render_template('list/list.html', list=game_list)
+    
     
 
-@app.route('/lists/<int:user_id>/new')
+@app.route('/lists/<int:user_id>/new', methods=['GET', 'POST'])
 def new_list(user_id):
     '''Displays a page that allows you to create a new list'''
     
+    if g.user.id == user_id:
+        user = User.query.get(user_id)
+        
+        form = NewListForm()
+        if form.validate_on_submit():
+            name = form.name.data
+            description = form.description.data or List.description.default.arg
+            list_user_id = user_id
+            
+            new_list = List(name=name, description=description, user_id=list_user_id)
+            
+            db.session.add(new_list)
+            db.session.commit()
+            
+            return redirect(f'/user/{user_id}')
+    
+        return render_template('list/new-list.html', form=form, user=user)
+    
+    else:
+        return redirect('/')
     
 
 @app.route('/lists/<int:list_id>/edit')
@@ -187,10 +215,81 @@ def delete_list(list_id):
 
 # ----------------------------------------------- #
 
+# ------------------- GAMES --------------------- #
+
+@app.route('/games/<game_id>')
+def game_details(game_id):
+    '''Shows a page that displays an individual game's details'''
+    
+    resp = game_query(game_id)
+    
+    results = resp.get('results', 'No results found')
+
+    
+    return render_template('game/game-detail.html', game=results)
+
+
+
+@app.route('/games/<game_id>/add', methods=['GET', 'POST'])
+def list_game_add(game_id):
+    '''Shows a form that processes which list to add the chosen game'''
+    
+    if g.user:
+        
+        form = AddToListForm()
+        
+        lists = [(li.id, li.name) for li in List.query.all()]
+        form.lists.choices = lists
+        
+        if form.validate_on_submit():
+            
+            # first must save game to db for ease of fetching and to allow list_game primary/foreign key creation
+            result = game_query(game_id)
+            game = result.get('results')
+            
+            try:
+                new_game = Game.create(game)
+                
+                if new_game:
+                    db.session.commit()   
+                    
+            except:
+                return render_template('game/add-to-list.html', form=form)
+            
+            
+            # collect form info and use it to create new list_game primary key
+            list_id = form.lists.data
+            
+            new_list_game = List_Game(list_id=list_id, game_id=game_id)
+            
+            db.session.add(new_list_game)
+            db.session.commit()
+            
+            return redirect('/')
+    
+        return render_template('game/add-to-list.html', form=form)
+    
+    return redirect('/')
+
+# ----------------------------------------------- #
+
 # ------------------ QUERIES -------------------- #
 
-@app.route('/search')
+@app.route('/search', methods=['GET', 'POST'])
 def search_for_games():
     '''Displays the search landing page'''
+    
+    form = GameSearch()
+    if form.validate_on_submit():
+        
+        # send query string to request def
+        search = form.search.data
+        resp = search_query(search)
+        
+        results = resp.get('results', 'No results found')
+        
+        return render_template('game/search.html', form=form, results=results)
+    
+    return render_template('game/search.html', form=form)
 
 # ----------------------------------------------- #

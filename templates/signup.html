@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="/static/jgames.css">
+    <script defer src="/static/jgames.js"></script>
 </head>
 <body>
 
@@ -32,6 +33,10 @@
             <div class="form-field">
                 {{ field.label }}
                 {{ field(class_="input-field") }}
+
+                {% for error in field.errors %}
+                <span class="input-error">{{ error }}</span>
+                {% endfor %}
             </div>
 
             {% endfor %}

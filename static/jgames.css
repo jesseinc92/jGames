@@ -30,7 +30,7 @@ nav li:first-child {
     margin-right: auto;
 }
 
-a {
+nav a {
     display: inline-block;
     padding: 1rem;
     color: black;
@@ -43,6 +43,17 @@ a {
     margin: auto;
     list-style: none;
     display: flex;
+}
+
+#navbar-search {
+    padding: 0;
+    margin: 0;
+    width: 20vw;
+    height: fit-content;
+}
+
+#search {
+    margin-top: 0%;
 }
 
 /* ================================================================ */
@@ -86,6 +97,94 @@ a {
     margin: auto;
 }
 
+#dashboard-list-preview {
+    height: 40%;
+    width: 80%;
+    margin: auto;
+    margin-top: 5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.list-preview-box {
+    width: 28%;
+    border: 1px solid black;
+}
+
+#no-lists-preview {
+    height: fit-content;
+}
+
+#no-lists-preview a {
+    display: inline-block;
+    margin: 1rem 0;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* ================================================================ */
+
+/* ===================== SEARCH RESULT STYLES ===================== */
+
+.result-card {
+    display: flex;
+    justify-content: space-around;
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    margin: 2rem;
+    color: black;
+}
+
+.result-card img {
+    height: fit-content;
+    width: fit-content;
+    margin: 1rem;
+}
+
+.result-card div {
+    width: 75%;
+    height: 90%;
+}
+
+.result-card div p {
+    margin: 1rem 0;
+}
+
+.result-card-title {
+    margin-top: 2rem;
+}
+
+/* ================================================================ */
+
+/* ========================= GAME STYLES ========================== */
+
+#game-details-landing {
+    width: 75%;
+    margin: auto;
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+}
+
+#game-details-landing p {
+    margin: 1rem 0;
+}
+
+#game-desc a {
+    pointer-events: none;
+    color: inherit;
+    text-decoration: none;
+}
+
+/* ======================== LIST STYLES =========================== */
+
+#hero-list-details * {
+    margin: 2rem 0;
+}
+
+/* ================================================================ */
+
 /* ================================================================ */
 
 main {
@@ -93,7 +192,33 @@ main {
     width: 100%;
 }
 
-#unauthorized-index-landing, #authorized-index-landing, #edit-user-landing {
+#unauthorized-index-landing, #authorized-index-landing {
+    height: 100%;
+    width: 100%;
+}
+
+#cta-wrapper {
+    width: fit-content;
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#cta-wrapper a {
+    display: inline-block;
+    margin: 1rem auto;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#index-search {
+    padding: 0;
+    width: 30vw;
+}
+
+#edit-user-landing {
     height: 100%;
     width: 100%;
     display: flex;
@@ -102,9 +227,33 @@ main {
     justify-content: center;
 }
 
+
 #dashboard-landing {
     height: 100%;
     width: 100%;
+}
+
+#search-search {
+    height: fit-content;
+    margin: auto;
+    padding: 0;
+}
+
+#search-search * {
+    margin: 0;
+}
+
+#search-results {
+    width: 50%;
+    margin: auto;
+    padding: 10rem 0;
+}
+
+#hero-list-details {
+    width: 75%;
+    margin: auto;
+    height: 75%;
+    padding-top: 10rem;
 }
 
 /* ======================= FORM STYLES ============================ */

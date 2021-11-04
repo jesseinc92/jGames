@@ -5,23 +5,30 @@
 {% block content %}
     {% if g.user %}
     <div id="authorized-index-landing">
-
-        <form action="">
-            {{ form.hidden_tag() }}
-
-            {% for field in form 
-                if field.widget.input_type != 'hidden' %}
-
-            <div class="form-field">
-                {{ field(class_="input-field", placeholder="search") }}
-            </div>
-
-            {% endfor %}
-        </form>
+        <div id="cta-wrapper">
+            <h1>Find your games.</h1>
+            <form id="index-search" action="/search" method="POST">
+                {{ form.hidden_tag() }}
+    
+                {% for field in form 
+                    if field.widget.input_type != 'hidden' %}
+    
+                <div id="index-search-field" class="form-field">
+                    {{ field(class_="input-field", placeholder="search") }}
+                </div>
+    
+                {% endfor %}
+    
+                <button style="display: none;">Search</button>
+            </form>
+        </div>
     </div>
     {% else %}
     <div id="unauthorized-index-landing">
-        <h1>Info goes here (Entice to signup/login).</h1>
+        <div id="cta-wrapper">
+            <h1>Search and sort your favorite video games!</h1>
+            <a class="button" href="/signup">Start Now!</a>
+        </div>
     </div>
     {% endif %}
 {% endblock %}

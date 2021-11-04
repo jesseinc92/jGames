@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}jGames | Search{% endblock %}
+
+{% block search %}
+    <form id="search-search" method="POST">
+        {{ form.hidden_tag() }}
+
+        {% for field in form 
+            if field.widget.input_type != 'hidden' %}
+
+        <div id="search-field" class="form-field">
+            {{ field(class_="input-field", placeholder="search") }}
+        </div>
+
+        {% endfor %}
+
+        <button style="display: none;">Search</button>
+    </form>
+{% endblock %}
+
+{% block content %}
+    <div id="search-results">
+        {% for result in results %}
+            <div class="result-card"> 
+                <img src="{{ result.get('image').get('thumb_url') }}" alt="{{ result.get('name') }} icon">
+                <div>
+                    <h3 class="result-card-title"><a href="/games/{{ result.get('guid') }}">{{ result.get('name') }}</a></h3>
+                    <p class="result-card-deck">{{ result.get('deck') }}</p>
+                </div>
+            </div>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

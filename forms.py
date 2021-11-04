@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField
+from wtforms.fields.core import SelectField
 from wtforms.validators import InputRequired, Length
 
 
@@ -30,6 +31,28 @@ class EditUser(FlaskForm):
     last_name = StringField('Last Name')
     avatar = StringField('Avatar')
     bio = TextAreaField('Bio')
+    
+    
+################ LIST FORMS ###################
+
+class NewListForm(FlaskForm):
+    '''A template for creating new lists'''
+    
+    name = StringField('Name', validators=[InputRequired(), Length(max=20)])
+    description = StringField('Description')
+    
+    
+class EditListForm(FlaskForm):
+    '''A template for editing lists'''
+    
+    name = StringField('Name', validators=[InputRequired(), Length(max=20)])
+    description = StringField('Description')
+    
+    
+class AddToListForm(FlaskForm):
+    '''A template for adding a game to a list'''
+    
+    lists = SelectField('Lists', coerce=int)
     
     
 ############# QUERY / SEARCH FORMS ############

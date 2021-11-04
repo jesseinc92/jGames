@@ -80,17 +80,64 @@ class Game(db.Model):
     
     __tablename__ = 'games'
     
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.String, primary_key=True)
     title = db.Column(db.Text, nullable=False)
     release_date = db.Column(db.Text, default='Not listed')
     summary = db.Column(db.Text, default='Not listed')
     reviews = db.Column(db.Text, default='Not listed')
-    main_image = db.Column(db.Text, nullable=False)
-    images = db.Column(db.Text, default='None found')
-    videos = db.Column(db.Text, default='None found')
-    plaforms = db.Column(db.Text, default='None found')
-    dlc = db.Column(db.Text, default='None found')
+    main_image = db.Column(db.String, nullable=False)
+    images = db.Column(db.ARRAY(db.String), default='None found')
+    videos = db.Column(db.ARRAY(db.String), default='None found')
+    platforms = db.Column(db.ARRAY(db.String), default='None found')
+    dlc = db.Column(db.ARRAY(db.String), default='None found')
     
+    @classmethod
+    def create(cls, game):
+        '''Utility method for creating a game row in db'''
+
+        images_array = list()
+        if game.get('images'):
+            for img in game.get('images'):
+                img_url = img.get('original')
+                images_array.append(img_url)
+        
+            
+        videos_array = list()
+        if game.get('videos'):
+            for vid in game.get('videos'):
+                vid_api_url = vid.get('api_detail_url')
+                videos_array.append(vid_api_url)
+            
+            
+        platforms_array = list()
+        if game.get('platforms'):
+            for pf in game.get('platforms'):
+                platform = pf.get('name')
+                platforms_array.append(platform)
+            
+            
+        dlc_array = list()
+        if game.get('dlcs'):
+            for item in game.get('dlcs'):
+                item_name = item.get('name')
+                dlc_array.append(item_name)
+        
+        
+        new_game = Game(
+            id=game.get('guid'),
+            title=game.get('name'),
+            release_date=game.get('release_date') or Game.release_date.default.arg,
+            summary=game.get('description') or Game.summary.default.arg,
+            main_image=game.get('image').get('original_url'),
+            images=images_array or Game.images.default.arg,
+            videos=videos_array or Game.video.default.arg,
+            platforms=platforms_array or Game.platforms.default.arg,
+            dlc=dlc_array or Game.dlc.default.arg
+        )
+        
+        db.session.add(new_game)
+        return new_game
+        
     
     
 class List_Game(db.Model):
@@ -99,4 +146,4 @@ class List_Game(db.Model):
     __tablename__ = 'lists_games'
     
     list_id = db.Column(db.Integer, db.ForeignKey('lists.id'), primary_key=True)
-    game_id = db.Column(db.Integer, db.ForeignKey('games.id'), primary_key=True)
+    game_id = db.Column(db.String, db.ForeignKey('games.id'), primary_key=True)
