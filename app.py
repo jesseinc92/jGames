@@ -5,7 +5,6 @@ from werkzeug.wrappers import response
 from models import db, db_connect, User, List, Game, List_Game
 from forms import LoginForm, SignupForm, EditUser, GameSearch, NewListForm, EditListForm, AddToListForm
 from api_helpers import game_query, search_query, video_query
-from bs4 import BeautifulSoup
 
 
 CURR_USER_KEY = 'current_user'
