@@ -7,6 +7,7 @@ from threading import Timer
 API_KEY = 'f004f106763bbbfa038ef135fe7f4d1a46fc852f'
 BASE_SEARCH_URL = 'https://www.giantbomb.com/api/search/'
 BASE_GAME_URL = 'https://www.giantbomb.com/api/game/'
+BASE_VIDEO_URL = 'https://www.giantbomb.com/api/video/'
 
 
 def search_query(query_str):
@@ -21,9 +22,9 @@ def search_query(query_str):
     
     headers = {"user-agent": "jGamesWebApp"}
     
-    resp = requests.get(url=BASE_SEARCH_URL, params=params, headers=headers)
+    search_resp = requests.get(url=BASE_SEARCH_URL, params=params, headers=headers)
     
-    return resp.json()
+    return search_resp.json()
 
 
 def game_query(query_str):
@@ -36,9 +37,9 @@ def game_query(query_str):
     
     headers = {"user-agent": "jGamesWebApp"}
     
-    resp = requests.get(url=f'{BASE_GAME_URL}{query_str}', params=params, headers=headers)
+    game_resp = requests.get(url=f'{BASE_GAME_URL}{query_str}', params=params, headers=headers)
     
-    return resp.json()
+    return game_resp.json()
 
 
 def video_query(query_str):
@@ -51,6 +52,6 @@ def video_query(query_str):
     
     headers = {"user-agent": "jGamesWebApp"}
     
-    resp = requests.get(url=query_str, params=params, headers=headers)
+    video_resp = requests.get(url=f'{BASE_VIDEO_URL}{query_str}', params=params, headers=headers)
     
-    return resp.json()
+    return video_resp.json()

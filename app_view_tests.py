@@ -102,5 +102,21 @@ class UserViewTest(TestCase):
             
             self.assertEqual(resp.status_code, 302)
             
+            
+    def test_user_edit(self):
+        with self.client as c:
+            resp = c.get(f'/user/{self.test_user_id}')
+            
+            self.assertEqual(resp.status_code, 302)
+            
     
+class QueryTest(TestCase):
+    '''Test views relating to queries'''
     
+    def test_search(self):
+        with app.test_client() as c:
+            resp = c.get('/search')
+            html = resp.get_data(as_text=True)
+            
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('<div id="search-results">', html)

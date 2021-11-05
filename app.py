@@ -1,9 +1,10 @@
 import os
 from flask import Flask, render_template, redirect, flash, g, session
 from sqlalchemy.exc import DatabaseError, IntegrityError, ProgrammingError
+from werkzeug.wrappers import response
 from models import db, db_connect, User, List, Game, List_Game
 from forms import LoginForm, SignupForm, EditUser, GameSearch, NewListForm, EditListForm, AddToListForm
-from helpers import game_query, search_query, video_query
+from api_helpers import game_query, search_query, video_query
 from bs4 import BeautifulSoup
 
 
@@ -248,7 +249,20 @@ def game_details(game_id):
     game_resp = game_query(game_id)
     results = game_resp.get('results', 'No results found')
     
+    
+    
     return render_template('game/game-detail.html', game=results)
+
+
+
+@app.route('/games/video/<video_id>')
+def game_video_player(video_id):
+    '''Displays a page where the video is embeded and played from API resource'''
+    
+    response = video_query(video_id)
+    video = response.get('results')
+
+    return render_template('game/video.html', video=video)
 
 
 

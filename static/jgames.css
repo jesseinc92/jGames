@@ -193,10 +193,31 @@ nav a {
     display: inline-block;
 }
 
-.game-image img, .game-video video {
+.game-image img, .game-video img {
     width: 100%;
 }
 
+#video-landing {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#video-wrapper {
+    width: 50%;
+}
+
+#video-wrapper video {
+    width: 100%;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+}
+
+#video-wrapper p {
+    margin-bottom: 5rem;
+}
 
 /* ======================== LIST STYLES =========================== */
 

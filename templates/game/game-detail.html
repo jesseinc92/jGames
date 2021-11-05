@@ -33,10 +33,10 @@
             {% if game.videos %}
                 {% for vid in game.videos %}
                 <div class="game-video" data-url="{{ vid.get('api_detail_url') }}">
-                    <p><a href="{{ vid.get('site_detail_url') }}" target="_blank">{{ vid.get('name') }}</a></p>
-                    <video src="{{ vid.get('site_detail_url') }}">
-
-                    </video>
+                    <p>{{ vid.get('name') }}</p>
+                    <a href="/games/video/2300-{{ vid.get('id') }}" target="_blank">
+                        <img src="https://koreatkdnutley.com/wp-content/uploads/sites/132/2015/12/video-placeholder.png" alt="video thumbnail">
+                    </a>
                 </div>
                 {% endfor %}
             {% else %}
