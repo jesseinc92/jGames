@@ -6,20 +6,51 @@
     <div id="game-details-landing">
         <p>{{ game.get('name') }}</p>
 
-        <form action="/games/{{ game.get('guid') }}/add" method="POST">
+        <form id="add-game" action="/games/{{ game.get('guid') }}/add" method="POST">
             <button class="button">Add to List</button>
         </form>
 
         <p>{{ game.get('original_release_date') }}</p>
-        <p id="game-desc">{{ game.get('description') }}</p>
+        <div id="game-desc">{{ game.get('description') }}</div>
+
+        <div>
+            <h2>Images</h2>
+            {% if game.images %}
+                {% for img in game.images %}
+                <div class="game-image">
+                    <a href="{{ img.get('original') }}" target="_blank">
+                        <img src="{{ img.get('original') }}" alt="{{ game.title }} image">
+                    </a>
+                </div>
+                {% endfor %}
+            {% else %}
+            <p>No images found!</p>
+            {% endif %}
+        </div>
+
+        <div>
+            <h2>Videos</h2>
+            {% if game.videos %}
+                {% for vid in game.videos %}
+                <div class="game-video" data-url="{{ vid.get('api_detail_url') }}">
+                    <p><a href="{{ vid.get('site_detail_url') }}" target="_blank">{{ vid.get('name') }}</a></p>
+                    <video src="{{ vid.get('site_detail_url') }}">
+
+                    </video>
+                </div>
+                {% endfor %}
+            {% else %}
+            <p>No videos found!</p>
+            {% endif %}
+        </div>
 
         <div>
             <h2>Similar Games</h2>
             <ul>
                 {% if game.get('similar_games') %}
-                {% for sim in game.get('similar_games') %}
-                <li><a href="/games/3030-{{ sim.get('id') }}">{{ sim.get('name') }}</a></li>
-                {% endfor %}
+                    {% for sim in game.get('similar_games') %}
+                    <li><a href="/games/3030-{{ sim.get('id') }}">{{ sim.get('name') }}</a></li>
+                    {% endfor %}
                 {% else %}
                 <h3>Nothing found here!</h3>
                 {% endif %}

@@ -1,10 +1,9 @@
 import os
-from array import array
 from flask import Flask, render_template, redirect, flash, g, session
-from sqlalchemy.exc import DatabaseError, IntegrityError
+from sqlalchemy.exc import DatabaseError, IntegrityError, ProgrammingError
 from models import db, db_connect, User, List, Game, List_Game
 from forms import LoginForm, SignupForm, EditUser, GameSearch, NewListForm, EditListForm, AddToListForm
-from helpers import game_query, search_query
+from helpers import game_query, search_query, video_query
 from bs4 import BeautifulSoup
 
 
@@ -203,15 +202,40 @@ def new_list(user_id):
         return redirect('/')
     
 
-@app.route('/lists/<int:list_id>/edit')
+@app.route('/lists/<int:list_id>/edit', methods=['GET', 'POST'])
 def edit_list(list_id):
     '''Allows a user to edit the details of a list and its contents'''
+    
+    if g.user:
+        
+        list_det = List.query.get(list_id)
+        form = EditListForm(obj=list_det)
+        if form.validate_on_submit():
+            
+            list_det.name = form.name.data
+            list_det.description = form.description.data or List.description.default.arg
+            db.session.commit()
+            
+            return redirect(f'/lists/{list_id}')
+        
+        return render_template('list/edit-list.html', form=form, list=list_det)
+    
+    return redirect('/')
     
     
 
 @app.route('/lists/<int:list_id>/delete')
 def delete_list(list_id):
     '''Deletes a list'''
+    
+    if g.user:
+        delete_list = List.query.get(list_id)
+        db.session.delete(delete_list)
+        db.session.commit()
+    
+        return redirect('/')
+    
+    return redirect('/')
 
 # ----------------------------------------------- #
 
@@ -221,10 +245,8 @@ def delete_list(list_id):
 def game_details(game_id):
     '''Shows a page that displays an individual game's details'''
     
-    resp = game_query(game_id)
-    
-    results = resp.get('results', 'No results found')
-
+    game_resp = game_query(game_id)
+    results = game_resp.get('results', 'No results found')
     
     return render_template('game/game-detail.html', game=results)
 
@@ -243,18 +265,23 @@ def list_game_add(game_id):
         
         if form.validate_on_submit():
             
-            # first must save game to db for ease of fetching and to allow list_game primary/foreign key creation
             result = game_query(game_id)
             game = result.get('results')
             
-            try:
-                new_game = Game.create(game)
-                
-                if new_game:
-                    db.session.commit()   
+            # check to see if game is already in db.
+            # if not, create new game row.
+            game_in_db = Game.query.get(game.get('guid'))
+            
+            if not game_in_db:
+            
+                try:
+                    new_game = Game.create(game)
                     
-            except:
-                return render_template('game/add-to-list.html', form=form)
+                    if new_game:
+                        db.session.commit()   
+                        
+                except:
+                    return render_template('game/add-to-list.html', form=form)
             
             
             # collect form info and use it to create new list_game primary key
@@ -271,9 +298,24 @@ def list_game_add(game_id):
     
     return redirect('/')
 
+
+
+@app.route('/games/<game_id>/<int:list_id>/delete', methods=['POST'])
+def delete_game(game_id, list_id):
+    '''Deletes a game from a list'''
+    
+    if g.user:
+        list_game = List_Game.query.get((list_id, game_id))
+        db.session.delete(list_game)
+        db.session.commit()
+    
+        return redirect(f'/lists/{list_id}')
+    
+    return redirect('/')
+
 # ----------------------------------------------- #
 
-# ------------------ QUERIES -------------------- #
+# ------------------- SEARCH -------------------- #
 
 @app.route('/search', methods=['GET', 'POST'])
 def search_for_games():

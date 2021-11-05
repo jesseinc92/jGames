@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit List{% endblock %}
+
+{% block content %}
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+            {% for field in form 
+                if field.widget.input_type != 'hidden' %}
+
+            <div class="form-field">
+                {{ field.label }}
+                {{ field(class_="input-field") }}
+
+                {% for error in field.errors %}
+                <span class="input-error">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            {% endfor %}
+
+            <button class="button">Save</button>
+            <a class="button" href="/lists/{{ list.id }}/delete">Delete</a>
+    </form>
+
+    <div id="list-edit-game-container">
+        {% for game in list.game %}
+        <div class="edit-list-game-wrapper">
+            <p><a href="/games/{{ game.id }}">{{ game.title }}</a>
+                <form class="game-delete" action="/games/{{ game.id }}/{{ list.id }}/delete" method="POST">
+                    <button classs="button">X</button>
+                </form>
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

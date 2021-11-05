@@ -1,8 +1,6 @@
 import os
-from re import TEMPLATE
 from unittest import TestCase
 
-from werkzeug.utils import send_file
 from models import db, db_connect, User, Game, List, List_Game
 
 os.environ['DATABASE_URL'] = 'postgresql:///jgames-test'
@@ -63,3 +61,46 @@ class LoginLogoutTest(TestCase):
             resp = c.get('/logout')
             
             self.assertEqual(resp.status_code, 302)
+            
+            
+class UserViewTest(TestCase):
+    '''Test views relating to users.'''
+    
+    def setUp(self):
+        
+        db.drop_all()
+        db.create_all()
+
+        self.client = app.test_client()
+        
+        self.test_user = User.signup(
+            username='testuser',
+            password='testuser',
+            first_name='tester1',
+            last_name='testington',
+            avatar=None,
+            bio=None
+        )
+        
+        self.test_user_id = 101
+        self.test_user.id = self.test_user_id
+        
+        db.session.commit()
+        
+    
+    def tearDown(self):
+        
+        resp = super().tearDown()
+        db.session.rollback()
+        return resp
+    
+    
+    def test_user_detail(self):
+        with self.client as c:
+            resp = c.get(f'/user/{self.test_user_id}')
+            html = resp.get_data(as_text=True)
+            
+            self.assertEqual(resp.status_code, 302)
+            
+    
+    

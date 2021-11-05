@@ -7,9 +7,11 @@
         <h2>{{ list.name }}</h2>
         <p>{{ list.description }}</p>
 
+        <a class="button" href="/lists/{{ list.id }}/edit">Edit</a>
+
         {% if list.game %}
             {% for game in list.game %}
-            <p>{{ game.title }}</p>
+            <p class="game-list-page"><a href="/games/{{ game.id }}">{{ game.title }}</a></p>
             {% endfor %}
         {% else %}
         <p>No games added yet!</p>

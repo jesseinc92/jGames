@@ -1,6 +1,7 @@
 '''Helpers such as API handling defs'''
 
 import requests
+from threading import Timer
 
 
 API_KEY = 'f004f106763bbbfa038ef135fe7f4d1a46fc852f'
@@ -36,5 +37,20 @@ def game_query(query_str):
     headers = {"user-agent": "jGamesWebApp"}
     
     resp = requests.get(url=f'{BASE_GAME_URL}{query_str}', params=params, headers=headers)
+    
+    return resp.json()
+
+
+def video_query(query_str):
+    '''Accepts an API video guid and makes the appropriate call for extracting embeded players.'''
+    
+    params = dict(
+        api_key=API_KEY,
+        format='json'
+    )
+    
+    headers = {"user-agent": "jGamesWebApp"}
+    
+    resp = requests.get(url=query_str, params=params, headers=headers)
     
     return resp.json()
