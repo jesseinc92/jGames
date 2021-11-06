@@ -1,7 +1,6 @@
 import os
 from unittest import TestCase
 from flask import g
-from sqlalchemy.orm import query
 
 from models import db, db_connect, User, Game, List, List_Game
 

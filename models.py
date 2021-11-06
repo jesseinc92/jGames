@@ -126,7 +126,7 @@ class Game(db.Model):
         new_game = Game(
             id=game.get('guid'),
             title=game.get('name'),
-            release_date=game.get('release_date') or Game.release_date.default.arg,
+            release_date=game.get('original_release_date') or Game.release_date.default.arg,
             summary=game.get('description') or Game.summary.default.arg,
             main_image=game.get('image').get('original_url'),
             images=images_array or Game.images.default.arg,
