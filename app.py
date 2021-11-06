@@ -201,6 +201,7 @@ def new_list(user_id):
     else:
         return redirect('/')
     
+    
 
 @app.route('/lists/<int:list_id>/edit', methods=['GET', 'POST'])
 def edit_list(list_id):
@@ -247,8 +248,6 @@ def game_details(game_id):
     
     game_resp = game_query(game_id)
     results = game_resp.get('results', 'No results found')
-    
-    
     
     return render_template('game/game-detail.html', game=results)
 

@@ -1,5 +1,7 @@
 import os
 from unittest import TestCase
+from flask import g
+from sqlalchemy.orm import query
 
 from models import db, db_connect, User, Game, List, List_Game
 
@@ -63,6 +65,8 @@ class LoginLogoutTest(TestCase):
             self.assertEqual(resp.status_code, 302)
             
             
+            
+            
 class UserViewTest(TestCase):
     '''Test views relating to users.'''
     
@@ -86,7 +90,7 @@ class UserViewTest(TestCase):
         self.test_user.id = self.test_user_id
         
         db.session.commit()
-        
+    
     
     def tearDown(self):
         
@@ -103,14 +107,157 @@ class UserViewTest(TestCase):
             self.assertEqual(resp.status_code, 302)
             
             
+    def test_user_detail_signed_in(self):
+        
+        with app.app_context():
+            def get_user():
+                g.user = self.test_user
+        
+                with self.client as c:
+                    resp = c.get(f'/user/{self.test_user_id}')
+                    html = resp.get_data(as_text=True)
+                    
+                    self.assertEqual(resp.status_code, 200)
+                    self.assertIn('<div id="dashboard-list-preview">', html)
+            
+            
     def test_user_edit(self):
         with self.client as c:
             resp = c.get(f'/user/{self.test_user_id}')
             
             self.assertEqual(resp.status_code, 302)
             
+            
+    def test_user_edit_signed_in(self):
+        
+        with app.app_context():
+            def get_user():
+                g.user = self.test_user
+                
+                with self.client as c:
+                    resp = c.get(f'/user/{self.test_user_id}/edit')
+                    html = resp.get_data(as_text=True)
+                    
+                    self.assertEqual(resp.status_code, 200)
+                    self.assertIn('<div id="edit-user-landing">', html)
+                    
+                    
+                    
+class ListViewTest(TestCase):
+    '''Test views relating to lists'''
     
-class QueryTest(TestCase):
+    def setUp(self):
+        db.drop_all()
+        db.create_all()
+
+        self.client = app.test_client()
+        
+        self.list_id = 101
+        
+        self.test_user = User.signup(
+            username='testuser',
+            password='testuser',
+            first_name='tester1',
+            last_name='testington',
+            avatar=None,
+            bio=None
+        )
+        
+        self.test_user_id = 101
+        self.test_user.id = self.test_user_id
+        
+        db.session.commit()
+        
+        
+    def tearDown(self):
+        
+        resp = super().tearDown()
+        db.session.rollback()
+        return resp
+        
+    
+    def test_list(self):
+        with self.client as c:
+            resp = c.get(f'/lists/{self.list_id}')
+            html = resp.get_data(as_text=True)
+            
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('<div id="hero-list-details">', html)
+            
+            
+    def test_list_new(self):
+        
+        with app.app_context():
+            def get_user():
+                g.user = self.test_user
+        
+                with self.client as c:
+                    resp = c.get(f'/lists/{self.user_id}/new')
+                    html = resp.get_data(as_text=True)    
+                    
+                    self.assertEqual(resp.status_code, 302)    
+                    
+                    
+    def test_list_new_signed_in(self):
+        
+        with app.app_context():
+            def get_user():
+                user_id = self.test_user.id
+                g.user = self.test_user
+        
+                with self.client as c:
+                    resp = c.get(f'/lists/{self.user_id}/new')
+                    html = resp.get_data(as_text=True)    
+                    
+                    self.assertEqual(resp.status_code, 200)
+                    self.assertIn('<button class="button">Create List</button>', html)
+                    
+                    
+    def test_list_edit(self):
+        with self.client as c:
+            resp = c.get(f'/lists/{self.list_id}/edit')
+            html = resp.get_data(as_text=True)
+            
+            self.assertEqual(resp.status_code, 302)
+            
+            
+    def test_list_edit(self):
+        
+        with app.app_context():
+            def get_user():
+                g.user = self.test_user
+        
+                with self.client as c:
+                    resp = c.get(f'/lists/{self.list_id}/edit')
+                    html = resp.get_data(as_text=True)
+                    
+                    self.assertEqual(resp.status_code, 200)
+                    self.assertIn('<button class="button">Save</button>', html)
+                    
+                    
+    def test_list_delete(self):
+        with self.client as c:
+                    resp = c.get(f'/lists/{self.list_id}/delete')
+                    html = resp.get_data(as_text=True)
+                    
+                    self.assertEqual(resp.status_code, 302)
+                    
+                    
+    def test_list_delete(self):
+        
+        with app.app_context():
+            def get_user():
+                g.user = self.test_user
+                
+                with self.client as c:
+                    resp = c.get(f'/lists/{self.list_id}/delete')
+                    html = resp.get_data(as_text=True)
+                    
+                    self.assertEqual(resp.status_code, 302)
+                    
+            
+    
+class QueryViewTest(TestCase):
     '''Test views relating to queries'''
     
     def test_search(self):
