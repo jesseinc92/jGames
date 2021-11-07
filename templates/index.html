@@ -2,33 +2,37 @@
 
 {% block title %}jGames{% endblock %}
 
+{% block nav_text_color %}white-nav-text{% endblock %}
+
 {% block content %}
+
+    <canvas id="3d-canvas">
+        <!-- 3D background goes here. -->
+    </canvas>
+
+
     {% if g.user %}
-    <div id="authorized-index-landing">
-        <div id="cta-wrapper">
-            <h1>Find your games.</h1>
-            <form id="index-search" action="/search" method="POST">
-                {{ form.hidden_tag() }}
-    
-                {% for field in form 
-                    if field.widget.input_type != 'hidden' %}
-    
-                <div id="index-search-field" class="form-field">
-                    {{ field(class_="input-field", placeholder="search") }}
-                </div>
-    
-                {% endfor %}
-    
-                <button style="display: none;">Search</button>
-            </form>
-        </div>
+    <div id="cta-wrapper">
+        <h1>Find your games.</h1>
+        <form id="index-search" action="/search" method="POST">
+            {{ form.hidden_tag() }}
+
+            {% for field in form 
+                if field.widget.input_type != 'hidden' %}
+
+            <div id="index-search-field" class="form-field">
+                {{ field(class_="input-field", placeholder="search") }}
+            </div>
+
+            {% endfor %}
+
+            <button style="display: none;">Search</button>
+        </form>
     </div>
     {% else %}
-    <div id="unauthorized-index-landing">
-        <div id="cta-wrapper">
-            <h1>Search and sort your favorite video games!</h1>
-            <a class="button" href="/signup">Start Now!</a>
-        </div>
+    <div id="cta-wrapper">
+        <h1>Search and sort your favorite video games!</h1>
+        <a class="button button-white" href="/signup">Start Now!</a>
     </div>
     {% endif %}
 {% endblock %}

@@ -1,4 +1,14 @@
+/* ====================== GLOBAL STYLES ========================= */
+
 /* Create :root variables when styles are finalized */
+
+:root {
+    font-family: 'Oswald', sans-serif;
+    color: #512DA8;
+
+    --primary-purple: #512DA8;
+    --accent-orange: #FFC107;
+}
 
 * {
     margin: 0;
@@ -8,15 +18,53 @@
 body {
     height: 100vh;
     overscroll-behavior: none;
+    font-size: 1.25rem;
+}
+
+h1 {
+    font-size: 3rem;
+    letter-spacing: 1px;
+}
+
+p {
+    font-family: 'Open Sans', sans-serif;
+}
+
+input[type=text], input[type=password], textarea {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.25rem;
+}
+
+button {
+    font-family: 'Oswald', sans-serif;
+    color: inherit;
+    background-color: unset;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+.link-spacer {
+    margin-left: 1rem;
 }
 
 
 /* ====================== NAVBAR STYLES ========================== */
 
 nav {
-    height: 8%;
+    height: 9%;
     width: 100%;
     position: absolute;
+}
+
+.white-nav-text a {
+    color: white;
 }
 
 nav li {
@@ -33,7 +81,6 @@ nav li:first-child {
 nav a {
     display: inline-block;
     padding: 1rem;
-    color: black;
     text-decoration: none;
 }
 
@@ -43,6 +90,15 @@ nav a {
     margin: auto;
     list-style: none;
     display: flex;
+}
+
+#brand-hero {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+#brand-hero span {
+    padding-right: 1rem;
 }
 
 #navbar-search {
@@ -61,36 +117,53 @@ nav a {
 /* ========================= USER STYLES ========================== */
 
 #dashboard-greeting {
-    position: absolute;
+    /* position: absolute;
     top: 15%;
-    left: 10%;
+    left: 38%; */
+    width: fit-content;
+    margin-left: 10%;
+    padding-top: 15%;
+    padding-bottom: 3rem;
 }
 
 #dashboard-profile-details {
+    position: absolute;
+    top: 15%;
     width: 30%;
-    margin: auto;
-    padding-top: 10%;
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-wrapper {
+    width: 80%;
+    height: fit-content;
+    padding: 3rem 1rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-#dashboard-profile-details * {
+.user-wrapper * {
     margin: 0.5rem;
 }
 
-#dashboard-profile-details img {
+.user-wrapper img {
     width: 10vw;
     height: 10vw;
     margin: auto;
+    margin-bottom: 1rem;
     border-radius: 50%;
+    border: 3px solid var(--accent-orange);
+    box-shadow: 0 0 10px var(--primary-purple);
 }
 
-#dashboard-profile-details p {
+.user-wrapper p {
     text-align: center;
 }
 
-#dashboard-profile-details form {
+.user-wrapper form {
     width: fit-content;
     padding: 0;
     position: relative;
@@ -98,30 +171,46 @@ nav a {
 }
 
 #dashboard-list-preview {
-    height: 40%;
-    width: 80%;
-    margin: auto;
-    margin-top: 5rem;
+    margin-left: 30%;
+    height: 100%;
+    /* width: 70%;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    align-items: center; */
+}
+
+#no-lists-preview, .list-preview-box {
+    width: fit-content;
+    margin: auto;
+    display: flex;
+    align-items: center;
+
+    border: 2px solid var(--primary-purple);
 }
 
 .list-preview-box {
-    width: 28%;
-    border: 1px solid black;
+    width: 50%;
+    margin-top: 2rem;
+    padding: 1rem 0;
+
+    transition: all 100ms linear;
 }
 
-#no-lists-preview {
-    height: fit-content;
+.list-preview-box:hover {
+    box-shadow: 0 0 5px var(--primary-purple);
+}
+
+.list-name {
+    width: 40%;
+    text-align: center;
+}
+
+#no-lists-preview h3 {
+    margin: 1rem;
 }
 
 #no-lists-preview a {
     display: inline-block;
-    margin: 1rem 0;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
+    margin: 1rem;
 }
 
 /* ================================================================ */
@@ -262,15 +351,11 @@ main {
     width: 100%;
 }
 
-#unauthorized-index-landing, #authorized-index-landing {
-    height: 100%;
-    width: 100%;
-}
-
 #cta-wrapper {
+    color: white;
     width: fit-content;
     position: absolute;
-    bottom: 20%;
+    bottom: 14%;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -343,15 +428,30 @@ form {
 .input-field {
     margin-top: 0.5rem;
     padding: 0.6rem;
-    border-radius: 0.5rem;
-    border: 1px solid black;
+    border: 2px solid var(--primary-purple);
 }
 
 .button {
     padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid black;
-    font-size: 1rem;
+    border: 3px solid var(--primary-purple);
+    font-size: 1.25rem;
+
+    transition: all 100ms linear;
+}
+
+.button:hover {
+    background-color: var(--primary-purple);
+    color: white;
+}
+
+.button-white {
+    border-color: white;
+
+}
+
+.button-white:hover {
+    background-color: white;
+    color: var(--primary-purple);
 }
 
 /* ================================================================ */

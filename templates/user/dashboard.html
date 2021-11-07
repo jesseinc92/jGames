@@ -4,39 +4,49 @@
 
 {% block content %}
     <div id="dashboard-landing">
-        <h2 id="dashboard-greeting">Hello, {{ user.first_name }}!</h1>
+        
 
         <div id="dashboard-profile-details">
 
+            <div class="user-wrapper">
             
-            <img src="{{ user.avatar }}" alt="{{ user.first_name }} profile photo">
+                <img src="{{ user.avatar }}" alt="{{ user.first_name }} profile photo">
 
-            <p>{{ user.username }}</p>
-            <p>{{ user.bio }}</p>
+                <p>{{ user.username }}</p>
+                <p>{{ user.bio }}</p>
 
-            <form action="/lists/{{ user.id }}/new">
-                <button class="button">Add List</button>
-                <a class="button" href="/user/{{ user.id }}/edit">Edit</a>
-            </form>
+                <form action="/lists/{{ user.id }}/new">
+                    <button class="button">Add List</button>
+                    <a class="button" href="/user/{{ user.id }}/edit">Edit</a>
+                </form>
+            </div>
         </div>
         
         <div id="dashboard-list-preview">
+
+            <div id="dashboard-greeting">
+                <h1>Hello, {{ user.first_name }}!</h1>
+                <p>Theses are the lists you've made so far...</p>
+            </div>
+
             {% if user.lists %}
                 {% for list in user.lists %}
-                <div class="list-preview-box">
-                    <p><a href="/lists/{{ list.id }}">{{ list.name }}</a></p>
-                    <ul>
-                        {% if list.game %}
+                <a href="/lists/{{ list.id }}">
+                    <div class="list-preview-box">
+                        <p class="list-name">{{ list.name }}</p>
                         <ul>
-                            {% for game in list.game %}
-                            <li>{{ game.title }}</li>
-                            {% endfor %}
+                            {% if list.game %}
+                            <ul class="list-games">
+                                {% for game in list.game %}
+                                <li>{{ game.title }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% else %}
+                            <p>No games yet!</p>
+                            {% endif %}
                         </ul>
-                        {% else %}
-                        <p>No games yet!</p>
-                        {% endif %}
-                    </ul>
-                </div>
+                    </div>
+                </a>
                 {% endfor %}
             {% else %}
             <div id="no-lists-preview">
