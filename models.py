@@ -83,6 +83,7 @@ class Game(db.Model):
     id = db.Column(db.String, primary_key=True)
     title = db.Column(db.Text, nullable=False)
     release_date = db.Column(db.Text, default='Not listed')
+    deck = db.Column(db.Text, default='Not listed')
     summary = db.Column(db.Text, default='Not listed')
     reviews = db.Column(db.Text, default='Not listed')
     main_image = db.Column(db.String, nullable=False)
@@ -101,6 +102,7 @@ class Game(db.Model):
                 img_url = img.get('original')
                 images_array.append(img_url)
         
+        print(images_array)
             
         videos_array = list()
         if game.get('videos'):
@@ -108,6 +110,7 @@ class Game(db.Model):
                 vid_api_url = vid.get('api_detail_url')
                 videos_array.append(vid_api_url)
             
+        print(videos_array)
             
         platforms_array = list()
         if game.get('platforms'):
@@ -115,6 +118,7 @@ class Game(db.Model):
                 platform = pf.get('name')
                 platforms_array.append(platform)
             
+        print(platforms_array)
             
         dlc_array = list()
         if game.get('dlcs'):
@@ -122,11 +126,13 @@ class Game(db.Model):
                 item_name = item.get('name')
                 dlc_array.append(item_name)
         
+        print(dlc_array)
         
         new_game = Game(
             id=game.get('guid'),
             title=game.get('name'),
             release_date=game.get('original_release_date') or Game.release_date.default.arg,
+            deck=game.get('deck') or Game.deck.default.arg,
             summary=game.get('description') or Game.summary.default.arg,
             main_image=game.get('image').get('original_url'),
             images=images_array or Game.images.default.arg,

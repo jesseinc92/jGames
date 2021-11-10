@@ -22,13 +22,17 @@
 {% block content %}
     <div id="search-results">
         {% for result in results %}
-            <div class="result-card"> 
-                <img src="{{ result.get('image').get('thumb_url') }}" alt="{{ result.get('name') }} icon">
+        <a href="/games/{{ result.get('guid') }}">
+            <div class="game-card"> 
+                <img src="{{ result.get('image').get('original_url') }}" alt="{{ result.get('name') }} icon">
                 <div>
-                    <h3 class="result-card-title"><a href="/games/{{ result.get('guid') }}">{{ result.get('name') }}</a></h3>
-                    <p class="result-card-deck">{{ result.get('deck') }}</p>
+                    <h3 class="game-card-title">{{ result.get('name') }}</h3>
+                    {% if result.get('deck') %}
+                    <p class="game-card-deck">{{ result.get('deck') }}</p>
+                    {% endif %}
                 </div>
             </div>
+        </a>
         {% endfor %}
         </ul>
     </div>

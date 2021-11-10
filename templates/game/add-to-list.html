@@ -5,6 +5,10 @@
 {% block content %}
     <div class="list-game-form-landing">
         <form method="POST">
+            {% for category, message in get_flashed_messages(with_categories=True) %}
+            <div class="flash-msg {{ category }}">{{ message }}</div>
+            {% endfor %}
+
             {{ form.hidden_tag() }}
 
             {% for field in form 
@@ -13,10 +17,6 @@
             <div class="form-field">
                 {{ field.label }}
                 {{ field(class_="input-field") }}
-
-                {% for error in field.errors %}
-                <span class="input-error">{{ error }}</span>
-                {% endfor %}
             </div>
             {% endfor %}
 

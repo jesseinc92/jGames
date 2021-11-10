@@ -2,12 +2,14 @@
 
 {% block title %}{{ video.get('name') }}{% endblock %}
 
+{% block index_color %}white-nav-text purple-background{% endblock %}
+
 {% block content %}
     <div id="video-landing">
         <div id="video-wrapper">
             <h1>{{ video.get('name') }}</h1>
 
-            <video autoplay controls>
+            <video controls>
                 <source src="{{ video.get('high_url') }}" type="video/mp4">
                 The video tag is not supported in your browser.
             </video>

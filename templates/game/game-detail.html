@@ -4,18 +4,58 @@
 
 {% block content %}
     <div id="game-details-landing">
-        <p>{{ game.get('name') }}</p>
+
+        <div id="game-details-header">
+
+            <img src="{{ game.get('image').get('original_url') }}" alt="">
+
+            <div id="game-details-header-text">
+                <h1>{{ game.get('name') }}</h1>
+
+                {% if game.get('platforms') %}
+                <h3>Released on:</h3>
+                <div class="platforms">
+                    {% for pl in game.get('platforms') %}
+                    <p>{{ pl.get('name') }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- {% if game.get('themes') %}
+                <div class="themes">
+                    {% for theme in game.get('themes') %}
+                    <p class="{{ theme.get('name') }}">{{ theme.get('name') }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %} -->
+
+                {% if game.get('deck') %}
+                <p id="details-deck">{{ game.get('deck') }}</p>
+                {% endif %}
+            </div>
+        </div>
 
         <form id="add-game" action="/games/{{ game.get('guid') }}/add" method="POST">
-            <button class="button">Add to List</button>
+            <button id="cta-button" class="button">Add to List</button>
+            <a class="button" href="#images-link">Images</a>
+            <a class="button" href="#videos-link">Videos</a>
+            <a class="button" href="#similar-link">Similar Games</a>
         </form>
 
-        <p>{{ game.get('original_release_date') }}</p>
-        <div id="game-desc">{{ game.get('description') }}</div>
+        <div id="game-desc">
+            {% if game.get('description') %}
+                {{ game.get('description') }}
+            {% else %}
+                <p>No description found!</p>
+            {% endif %}
+        </div>
 
-        <div>
-            <h2>Images</h2>
+        <div class="images-videos-similar-wrappers">
+            <h2 id="images-link">Images</h2>
             {% if game.images %}
+            <div class="arrows"><span id="left-caret-images" class="left-caret"><i class="fas fa-caret-left"></i></span>
+                <span id="right-caret-images" class="right-caret"><i class="fas fa-caret-right"></i></span></div>
+            <div id="game-images-wrapper">
                 {% for img in game.images %}
                 <div class="game-image">
                     <a href="{{ img.get('original') }}" target="_blank">
@@ -27,10 +67,14 @@
             <p>No images found!</p>
             {% endif %}
         </div>
-
-        <div>
-            <h2>Videos</h2>
+        
+        <div class="images-videos-similar-wrappers">
+            <h2 id="videos-link">Videos</h2>
             {% if game.videos %}
+            <div class="arrows"><span id="left-caret-videos" class="left-caret"><i class="fas fa-caret-left"></i></span>
+                <span id="right-caret-videos" class="right-caret"><i class="fas fa-caret-right"></i></span></div>
+
+            <div id="game-videos-wrapper">
                 {% for vid in game.videos %}
                 <div class="game-video" data-url="{{ vid.get('api_detail_url') }}">
                     <p>{{ vid.get('name') }}</p>
@@ -44,17 +88,23 @@
             {% endif %}
         </div>
 
-        <div>
-            <h2>Similar Games</h2>
-            <ul>
-                {% if game.get('similar_games') %}
-                    {% for sim in game.get('similar_games') %}
-                    <li><a href="/games/3030-{{ sim.get('id') }}">{{ sim.get('name') }}</a></li>
-                    {% endfor %}
-                {% else %}
-                <h3>Nothing found here!</h3>
-                {% endif %}
-            </ul>
+        <div class="images-videos-similar-wrappers">
+            <h2 id="similar-link">Similar Games</h2>
+            {% if game.get('similar_games') %}
+            <div id="game-similar-wrapper">
+                {% for sim in game.get('similar_games') %}
+                <a href="/games/3030-{{ sim.get('id') }}">
+                    <div class="similar-game-wrapper">
+                        <h4><span><i class="fas fa-meteor"></i></span>{{ sim.get('name') }}</h4>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <h3>Nothing found here!</h3>
+            {% endif %}
         </div>
+
+        <a id="back-to-top" class="button" href="#game-details-landing">Back to Top</a>
     </div>
 {% endblock %}

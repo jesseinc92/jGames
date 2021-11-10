@@ -10,10 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&family=Oswald:wght@200;400;600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/5647bfe9c2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/static/jgames.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script type="module" src="/static/3d-homepage.js"></script>
     <script defer src="/static/jgames.js"></script>
 </head>
-<body class="{% block nav_text_color %}{% endblock %}">
+<body class="{% block index_color %}{% endblock %}">
 
     <nav>
         <ul class="navlink-wrapper">
@@ -21,11 +22,11 @@
             {% if g.user %}
             {% block search %}
             {% endblock %}
-            <li><a href="/search">Browse</a></li>
-            <li><a href="/user/{{ g.user.id }}">{{ g.user.username }}</a></li>
+            <li><a href="/search"><i class="fas fa-search"></i></a></li>
+            <li><a href="/user/{{ g.user.id }}">{{ g.user.username }} <i class="fas fa-user-circle"></i></a></li>
             <li><a href="/logout">Logout</a></li>
             {% else %}
-            <li><a href="/login">Login</a></li>
+            <li><a href="/login">Login <i class="fas fa-sign-in-alt"></i></a></li>
             <li><a href="/signup">Signup</a></li>
             {% endif %}
         </ul>
@@ -36,6 +37,10 @@
         <!-- Page content goes here. -->
         {% endblock %}
     </main>
+
+    <div id="screen-size-warning">
+        <h2>This website is best experienced on larger screens, so get out your laptops and browse away!</h2>
+    </div>
 
 </body>
 </html>

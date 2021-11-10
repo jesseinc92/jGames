@@ -12,14 +12,14 @@
             
                 <img src="{{ user.avatar }}" alt="{{ user.first_name }} profile photo">
 
-                <p>{{ user.username }}</p>
+                <h2>{{ user.username }}</h2>
                 <p>{{ user.bio }}</p>
 
-                <form action="/lists/{{ user.id }}/new">
-                    <button class="button">Add List</button>
-                    <a class="button" href="/user/{{ user.id }}/edit">Edit</a>
-                </form>
             </div>
+            <form action="/lists/{{ user.id }}/new">
+                <button id="cta-button" class="button">Add List</button>
+                <a class="button" href="/user/{{ user.id }}/edit">Edit</a>
+            </form>
         </div>
         
         <div id="dashboard-list-preview">
@@ -32,19 +32,17 @@
             {% if user.lists %}
                 {% for list in user.lists %}
                 <a href="/lists/{{ list.id }}">
-                    <div class="list-preview-box">
-                        <p class="list-name">{{ list.name }}</p>
-                        <ul>
-                            {% if list.game %}
-                            <ul class="list-games">
-                                {% for game in list.game %}
-                                <li>{{ game.title }}</li>
-                                {% endfor %}
-                            </ul>
-                            {% else %}
-                            <p>No games yet!</p>
-                            {% endif %}
+                    <div id="list-preview-box">
+                        <h2 class="list-name">{{ list.name }}</h2>
+                        {% if list.game %}
+                        <ul class="list-game">
+                            {% for game in list.game %}
+                            <li>{{ game.title }}</li>
+                            {% endfor %}
                         </ul>
+                        {% else %}
+                        <p>No games yet!</p>
+                        {% endif %}
                     </div>
                 </a>
                 {% endfor %}

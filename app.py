@@ -293,6 +293,7 @@ def list_game_add(game_id):
                         db.session.commit()   
                         
                 except:
+                    flash('There was a problem adding your game!', 'danger')
                     return render_template('game/add-to-list.html', form=form)
             
             
@@ -304,7 +305,7 @@ def list_game_add(game_id):
             db.session.add(new_list_game)
             db.session.commit()
             
-            return redirect('/')
+            return redirect(f'/lists/{list_id}')
     
         return render_template('game/add-to-list.html', form=form)
     
