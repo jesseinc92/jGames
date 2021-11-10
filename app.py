@@ -15,7 +15,7 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', '135ace246')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db_connect(app)
-db.create_all()
+# db.create_all()
 
 
 
