@@ -10,7 +10,7 @@ from api_helpers import game_query, search_query, video_query
 CURR_USER_KEY = 'current_user'
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql:///jgames') #.replace("://", "ql://", 1) # os.environ.get('DATABASE_URL', 'postgresql:///jgames')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("://", "ql://", 1) # os.environ.get('DATABASE_URL', 'postgresql:///jgames')
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', '135ace246')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
