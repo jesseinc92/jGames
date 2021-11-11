@@ -10,7 +10,7 @@ from api_helpers import game_query, search_query, video_query
 CURR_USER_KEY = 'current_user'
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("://", "ql://", 1) # os.environ.get('DATABASE_URL', 'postgresql:///jgames')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql:///jgames') #.replace("://", "ql://", 1) # os.environ.get('DATABASE_URL', 'postgresql:///jgames')
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', '135ace246')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -78,8 +78,8 @@ def signup_page():
             db.session.commit()
             
         except IntegrityError:
-            flash('Username already taken', 'danger')
-            return render_template('/signup', form=form)
+            flash('Username is already in use.', 'danger')
+            return render_template('signup.html', form=form)
             
         do_login(user)
         
@@ -105,6 +105,7 @@ def login_page():
             return redirect('/')
         
         else:
+            flash('There was a problem with your username or password.', 'danger')
             return render_template('login.html', form=form)
     
     return render_template('login.html', form=form)
@@ -189,10 +190,16 @@ def new_list(user_id):
             description = form.description.data or List.description.default.arg
             list_user_id = user_id
             
-            new_list = List(name=name, description=description, user_id=list_user_id)
+            try:
             
-            db.session.add(new_list)
-            db.session.commit()
+                new_list = List(name=name, description=description, user_id=list_user_id)
+            
+                db.session.add(new_list)
+                db.session.commit()
+                
+            except:
+                flash('There was a problem creating your list!', 'danger')
+                return render_template('list/new-list.html', form=form, user=user)    
             
             return redirect(f'/user/{user_id}')
     

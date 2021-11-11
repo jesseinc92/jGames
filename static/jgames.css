@@ -396,6 +396,8 @@ nav a {
     pointer-events: none;
     color: inherit;
     text-decoration: none;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 #game-desc p {
@@ -862,6 +864,10 @@ form {
 
     #screen-size-warning * {
         margin: 0 4rem;
+    }
+
+    body {
+        overflow: hidden;
     }
 }
 

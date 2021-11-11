@@ -16,8 +16,8 @@ class LoginForm(FlaskForm):
 class SignupForm(FlaskForm):
     '''Template for a signup form object'''
     
-    username = StringField('Username', validators=[InputRequired(), Length(max=20)])
-    password = PasswordField('Password', validators=[InputRequired(), Length(min=6)])
+    username = StringField('Username *', validators=[InputRequired(), Length(max=20)])
+    password = PasswordField('Password *', validators=[InputRequired(), Length(min=6)])
     first_name = StringField('First Name')
     last_name = StringField('Last Name')
     avatar = StringField('Avatar')
@@ -38,14 +38,14 @@ class EditUser(FlaskForm):
 class NewListForm(FlaskForm):
     '''A template for creating new lists'''
     
-    name = StringField('Name', validators=[InputRequired(), Length(max=20)])
+    name = StringField('Name *', validators=[InputRequired(), Length(max=20)])
     description = StringField('Description')
     
     
 class EditListForm(FlaskForm):
     '''A template for editing lists'''
     
-    name = StringField('Name', validators=[InputRequired(), Length(max=20)])
+    name = StringField('Name *', validators=[InputRequired(), Length(max=20)])
     description = StringField('Description')
     
     
