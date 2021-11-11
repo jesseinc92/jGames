@@ -35,7 +35,7 @@ This app retrieves data from the giantbomb.com API. All calls for information ar
 
 - HTML/CSS
 - Python (Flask with Jinja2)
-- Vanilla JavaScript
+- JavaScript (Vanilla and Three.js)
 - WTForms
 - SQLAlchemy
 - Bcrypt
